@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from . import forms, models
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 @login_required
 def home(request):
     photos = models.Photo.objects.all()
-    return render(request, 'bookblog/home.html', context={'photos': photos})
+    blogs = models.Blog.objects.all()
+    return render(request, 'bookblog/home.html', context={'photos': photos, 'blogs': blogs})
 
 @login_required
 def photo_upload(request):
@@ -21,3 +23,66 @@ def photo_upload(request):
             photo.save()
             return redirect('home')
     return render(request, 'bookblog/photo_upload.html', context={'form': form})
+
+@login_required
+def blog_and_photo_upload(request):
+    blog_form = forms.BlogForm()
+    photo_form = forms.PhotoForm()
+    if request.method == 'POST':
+        # handle the POST request here
+        context = {
+            'blog_form': blog_form,
+            'photo_form': photo_form,
+            }
+    return render(request, 'blog/create_post.html', context=context)
+
+@login_required
+def blog_and_photo_upload(request):
+    blog_form = forms.BlogForm()
+    photo_form = forms.PhotoForm()
+    if request.method == 'POST':
+        blog_form = forms.BlogForm(request.POST)
+        photo_form = forms.PhotoForm(request.POST, request.FILES)
+        if all([blog_form.is_valid(), photo_form.is_valid()]):
+            photo = photo_form.save(commit=False)
+            photo.uploader = request.user
+            photo.save()
+            blog = blog_form.save(commit=False)
+            blog.author = request.user
+            blog.photo = photo
+            blog.save()
+            return redirect('home')
+    context = {
+        'blog_form': blog_form,
+        'photo_form': photo_form,
+        }
+    return render(request, 'bookblog/create_post.html', context=context)
+
+@login_required
+def post_view(request, blog_id):
+    blog = get_object_or_404(models.Blog, id=blog_id)
+    return render(request, 'bookblog/post_view.html', {'blog': blog})
+
+@login_required
+def edit_post(request, blog_id):
+    blog = get_object_or_404(models.Blog, id=blog_id)
+    edit_form = forms.BlogForm(instance=blog)
+    delete_form = forms.DeleteBlogForm()
+    if request.method == 'POST':
+        if 'edit_blog' in request.POST:
+            edit_form = forms.BlogForm(request.POST, instance=blog)
+            if edit_form.is_valid():
+                edit_form.save()
+                return redirect('home')
+        if 'delete_blog' in request.POST:
+            delete_form = forms.DeleteBlogForm(request.POST)
+            if delete_form.is_valid():
+                blog.delete()
+                return redirect('home')
+    context = {
+        'edit_form': edit_form,
+        'delete_form': delete_form,
+        }
+    return render(request, 'bookblog/edit_post.html', context=context)
+
+

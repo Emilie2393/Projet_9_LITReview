@@ -8,7 +8,7 @@
         {% if user.is_authenticated %}
             <p><a href="{% url 'home' %}">Accueil</a></p>
             <p><a href="{% url 'blog_create' %}">Écrire un billet</a></p>
-            <p><a href="{% url 'photo_upload' %}">Télécharger une photo</a></p>
+            <p><a href="{% url 'follow_users' %}">Suivre des utilisateurs</a></p>
             <p>Vous êtes connecté en tant que {{ request.user }}. <a href="{% url 'logout' %}">Se déconnecter</a></p>
         {% endif %}
     </body>

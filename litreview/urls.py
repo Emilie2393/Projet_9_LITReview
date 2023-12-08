@@ -16,10 +16,10 @@ urlpatterns = [
     path('logout/', authentication.views.logout_user, name='logout'),
     path('home/', bookblog.views.home, name='home'),
     path('signup/', authentication.views.signup_page, name='signup'),
-    path('photo/upload/', bookblog.views.photo_upload, name='photo_upload'),
     path('blog/create', bookblog.views.blog_and_photo_upload, name='blog_create'),
     path('blog/<int:blog_id>', bookblog.views.post_view, name='post_view'),
     path('blog/<int:blog_id>/edit', bookblog.views.edit_post, name='edit_blog'),
+    path('follow-users/', bookblog.views.users_search, name='follow_users')
 ]
 
 if settings.DEBUG:

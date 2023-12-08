@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Suivre des utilisateurs</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="search" name="search">
+        <button type="submit">Chercher</button>
+    </form>
+    {% if username %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form }}
+            <h3>Abonné : {{ username }}</h3>
+            <button type="submit" name="valid">Suivre</button>
+        </form>
+    {% endif %}
+{% endblock content %}

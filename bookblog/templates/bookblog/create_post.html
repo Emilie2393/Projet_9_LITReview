@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Écrire un billet</h2>
+    {% if review_form %}
+        <h2>Créer une critique</h2>
+    {% else %}
+        <h2>Demander une critique</h2>
+    {% endif %}
     <form method="post" enctype="multipart/form-data">
         {{ blog_form.as_p }}
-        {{ photo_form.as_p }}
+        {% if review_form %}
+            {{ review_form.as_p }}
+        {% endif %}
         {% csrf_token %}
+        
         <button type="submit" >Publier</button>
     </form>
+    
 {% endblock content %}

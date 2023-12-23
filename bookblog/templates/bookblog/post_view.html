@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>{{ blog.title }}</h2>
-    <p><a href="{% url 'edit_blog' blog.id %}">Modifier le billet</a></p>
-    <img src="{{ blog.photo.image.url }}">
+    {% if author == user_online %}
+        <p><a href="{% url 'edit_blog' blog.id %}">Modifier le billet</a></p>
+    {% endif %}
+    {% if not reviews %}
+        <p><a href="{% url 'post_review' blog.id %}">Poster une critique</a></p>
+    {% endif %}
+    <img src="{{ blog.image.url }}">
     <p>{{ blog.photo.caption }}</p>
     <p>{{ blog.content }}</p>
+    {% for review in reviews %}
+        <div class="post">
+            <p>{{ review.headline }}</p>
+        </div>
+    {% endfor %}
 {% endblock content %}

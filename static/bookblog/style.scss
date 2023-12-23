@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+}
+
+.navigation {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: rgb(204, 166, 166);
+    align-items: center;
+    &__links {
+        display: flex;
+        & > * {
+            padding-right: 10px;
+        }
+    }
+}
+
+.container{
+    margin: 100px;
+    &__post{
+        border: 2px solid brown;
+        border-radius: 10px;
+        margin: 20px;
+        
+        & > * {
+            margin-left: 10px;
+        }
+        &__ticket{
+            margin: 10px;
+            border: 2px solid rgb(125, 61, 61);
+            border-radius: 10px;
+            & h4 {
+                margin-left: 15px;
+            }
+            & div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                & img {
+                    border: 1px solid grey;
+                }
+            }
+        }
+    }
+
+}
+
+
+

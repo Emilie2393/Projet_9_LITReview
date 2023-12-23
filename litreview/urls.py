@@ -17,9 +17,12 @@ urlpatterns = [
     path('home/', bookblog.views.home, name='home'),
     path('signup/', authentication.views.signup_page, name='signup'),
     path('blog/create', bookblog.views.blog_and_photo_upload, name='blog_create'),
+    path('blog/askreview', bookblog.views.blog_and_photo_upload, name='ask_review'),
     path('blog/<int:blog_id>', bookblog.views.post_view, name='post_view'),
     path('blog/<int:blog_id>/edit', bookblog.views.edit_post, name='edit_blog'),
-    path('follow-users/', bookblog.views.users_search, name='follow_users')
+    path('blog/<int:blog_id>/post', bookblog.views.edit_post, name='post_review'),
+    path('follow-users/', bookblog.views.users_search, name='follow_users'),
+    path('user/<int:user_id>', bookblog.views.user_view, name='user_view'),
 ]
 
 if settings.DEBUG:

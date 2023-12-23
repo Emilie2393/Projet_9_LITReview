@@ -1,25 +1,21 @@
 from django.db import models
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
-class Photo(models.Model):
-    image = models.ImageField()
-    caption = models.CharField(max_length=128, blank=True)
-    uploader = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    date_created = models.DateTimeField(auto_now_add=True)
-
-class Blog(models.Model):
-    photo = models.ForeignKey(Photo, null=True, on_delete=models.SET_NULL, blank=True)
+class Ticket(models.Model):
+    image = models.ImageField(null=True, blank=True)
     title = models.CharField(max_length=128)
-    content = models.CharField(max_length=5000)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='BookblogUsers', related_name='contribution')
-    date_created = models.DateTimeField(auto_now_add=True)
-    starred = models.BooleanField(default=False)
+    description = models.CharField(max_length=5000)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    time_created = models.DateTimeField(auto_now_add=True)
 
-class BookblogUsers(models.Model):
+class Review(models.Model):
+    ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE)
+    rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
-    contribution = models.CharField(max_length=255, blank=True)
-    class Meta:
-        unique_together = ('user', 'blog')
+    headline = models.CharField(max_length=128)
+    body = models.TextField(max_length=8192, blank=True)
+    time_created = models.DateTimeField(auto_now_add=True)
+
+

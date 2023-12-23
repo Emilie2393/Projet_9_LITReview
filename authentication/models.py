@@ -4,19 +4,16 @@ from django.db import models
 
 class User(AbstractUser):
     
-    CREATOR = 'CREATOR'
-    SUBSCRIBER = 'SUBSCRIBER'
     username = models.CharField(max_length=30, unique=True)
-
-    ROLE_CHOICES = (
-        (CREATOR, 'Créateur'),
-        (SUBSCRIBER, 'Abonné'),
-    )
-    role = models.CharField(max_length=30, choices=ROLE_CHOICES, verbose_name='Rôle')
     follows = models.ManyToManyField(
         'self',
-        limit_choices_to={'role': SUBSCRIBER},
         symmetrical=False,
         verbose_name='suit'
+    )
+    followed_by = models.ManyToManyField(
+        'self',
+        symmetrical=False,
+        verbose_name='vous suit',
+        related_name="followers"
     )
 

@@ -6,12 +6,29 @@
         <input type="search" name="search">
         <button type="submit">Chercher</button>
     </form>
-    {% if username %}
-        <form method="post">
-            {% csrf_token %}
-            {{ form }}
-            <h3>Abonné : {{ username }}</h3>
-            <button type="submit" name="valid">Suivre</button>
-        </form>
+    {% if user_to_follow %}
+        <div class="post">
+            <a href="{% url 'user_view' user_to_follow.id %}">
+                <h3>
+                    {{ user_to_follow.username}}
+                </h3>
+            </a>
+        </div>
+    {% endif %}
+    {% if followers %}
+        <h2>Vos abonnés</h2>
+        {% for follower in followers %}
+            <div>{{ follower.username }}</div>
+        {% endfor %}
+    {% endif %}
+    {% if follows %}
+        <h2>Vos abonnements</h2>
+        {% for follow in follows %}
+            <div>{{ follow.username }}</div>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="data" value="{{follow.id}}">Se désabonner</button>
+            </form>
+        {% endfor %}
     {% endif %}
 {% endblock content %}

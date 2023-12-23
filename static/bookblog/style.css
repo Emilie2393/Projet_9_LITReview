@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+}
+
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: rgb(204, 166, 166);
+  align-items: center;
+}
+.navigation__links {
+  display: flex;
+}
+.navigation__links > * {
+  padding-right: 10px;
+}
+
+.container {
+  margin: 100px;
+}
+.container__post {
+  border: 2px solid brown;
+  border-radius: 10px;
+  margin: 20px;
+}
+.container__post > * {
+  margin-left: 10px;
+}
+.container__post__ticket {
+  margin: 10px;
+  border: 2px solid rgb(125, 61, 61);
+  border-radius: 10px;
+}
+.container__post__ticket h4 {
+  margin-left: 15px;
+}
+.container__post__ticket div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container__post__ticket div img {
+  border: 1px solid grey;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,15 +1,50 @@
 {% extends 'base.html' %}
+{% load home_extras %}
 {% block content %}
-    <h2>Photos</h2>
-    <div class="grid-container">
-        {% for blog in blogs %}
-            <div class="post">
-                <a href="{% url 'post_view' blog.id %}">
-                    <h4>Billet : {{ blog.title }}</h4>
-                    <img src="{{ blog.photo.image.url }}">
-                </a>
+    <main class="container">
+        {% for post in posts %}
+            {% if post.content_type == 'TICKET' %}
+            <div class="container__post">
+                {% for item in not_reviewed %}
+                    {% if item == post %}
+                        <p>{{post.user}} a demandé une critique </p>
+                        <p>{{post.title}} </p>
+                        <button><a href="{% url 'post_review' post.id %}">Poster une critique</a></button>
+                    {% else %}
+                        {% for review in posts %}
+                            {% if review.content_type == 'REVIEW' %}
+                                {% if review.ticket == post %}
+                                    <p>{{review.user}} à posté cette critique</p>
+                                    <p>{{review.headline}} 
+                                        {% with ''|center:review.rating as range %}
+                                            {% for _ in range %}
+                                                &#9733;
+                                            {% endfor %}
+                                        {% endwith %}
+                                        {% with review.rating|empty_stars as empty %}
+                                            {% with ''|center:empty as range %}
+                                                {% for _ in range %}
+                                                    &#9734;
+                                                {% endfor %}
+                                            {% endwith %}
+                                        {% endwith %}
+                                    </p>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        <div class="container__post__ticket">
+                            <a href="{% url 'post_view' post.id %}">
+                                <h4>Billet : {{ post.title }}</h4>
+                                <div>
+                                    <img src="{{ post.image.url }}">
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
             </div>
         {% endfor %}
-    </div>
+    </main>
     
 {% endblock content %}

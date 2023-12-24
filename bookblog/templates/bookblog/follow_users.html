@@ -1,34 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Suivre des utilisateurs</h2>
-    <form method="post">
-        {% csrf_token %}
-        <input type="search" name="search">
-        <button type="submit">Chercher</button>
-    </form>
-    {% if user_to_follow %}
-        <div class="post">
-            <a href="{% url 'user_view' user_to_follow.id %}">
-                <h3>
-                    {{ user_to_follow.username}}
-                </h3>
-            </a>
-        </div>
-    {% endif %}
-    {% if followers %}
-        <h2>Vos abonnés</h2>
-        {% for follower in followers %}
-            <div>{{ follower.username }}</div>
-        {% endfor %}
-    {% endif %}
-    {% if follows %}
-        <h2>Vos abonnements</h2>
-        {% for follow in follows %}
-            <div>{{ follow.username }}</div>
-            <form method="post">
-                {% csrf_token %}
-                <button type="submit" name="data" value="{{follow.id}}">Se désabonner</button>
-            </form>
-        {% endfor %}
-    {% endif %}
+    <div class="container__post follow_page">
+        <h2>Suivre des utilisateurs</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="search" name="search">
+            <button type="submit">Chercher</button>
+        </form>
+        {% if user_to_follow %}
+            <div class="post">
+                <a href="{% url 'user_view' user_to_follow.id %}">
+                    <h3>
+                        {{ user_to_follow.username}}
+                    </h3>
+                </a>
+            </div>
+        {% endif %}
+        {% if followers %}
+            <h2>Vos abonnés</h2>
+            <div class="follow">
+            {% for follower in followers %}
+                <p>{{ follower.username }}</p>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% if follows %}
+            <h2>Vos abonnements</h2>
+            <div class="follow">
+            {% for follow in follows %}
+                <div>
+                    <p>{{ follow.username }}</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="data" value="{{follow.id}}">Se désabonner</button>
+                    </form>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock content %}

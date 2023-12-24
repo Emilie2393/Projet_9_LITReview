@@ -7,14 +7,14 @@
             <div class="container__post">
                 {% for item in not_reviewed %}
                     {% if item == post %}
-                        <p>{{post.user}} a demandé une critique </p>
+                        <p><span>{{post.user}}</span> a demandé une critique </p>
                         <p>{{post.title}} </p>
                         <button><a href="{% url 'post_review' post.id %}">Poster une critique</a></button>
                     {% else %}
                         {% for review in posts %}
                             {% if review.content_type == 'REVIEW' %}
                                 {% if review.ticket == post %}
-                                    <p>{{review.user}} à posté cette critique</p>
+                                    <p><span>{{review.user}}</span> à posté cette critique</p>
                                     <p>{{review.headline}} 
                                         {% with ''|center:review.rating as range %}
                                             {% for _ in range %}

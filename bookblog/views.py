@@ -94,7 +94,8 @@ def edit_post(request, blog_id):
         'delete_form': delete_form,
         'post_review': post_review,
         'author': blog.user,
-        'user_online': request.user}
+        'user_online': request.user,
+        'blog': blog}
     return render(request, 'bookblog/edit_post.html', context=context)
 
 @login_required

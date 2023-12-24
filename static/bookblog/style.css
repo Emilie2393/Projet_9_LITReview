@@ -24,6 +24,12 @@ body {
   border: 2px solid brown;
   border-radius: 10px;
   margin: 20px;
+  padding: 12px;
+  background-color: rgb(232, 218, 217);
+}
+.container__post span {
+  font-weight: bold;
+  font-size: 18px;
 }
 .container__post > * {
   margin-left: 10px;
@@ -32,6 +38,10 @@ body {
   margin: 10px;
   border: 2px solid rgb(125, 61, 61);
   border-radius: 10px;
+  background-color: white;
+}
+.container__post__ticket a {
+  text-decoration: none;
 }
 .container__post__ticket h4 {
   margin-left: 15px;
@@ -42,7 +52,32 @@ body {
   align-items: center;
 }
 .container__post__ticket div img {
-  border: 1px solid grey;
+  border: 1px solid #808080;
+  margin-bottom: 10px;
+}
+
+.follow_page {
+  justify-content: center;
+}
+
+.follow {
+  margin: 0 10px 10px 10px;
+}
+.follow div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  text-align: center;
+  justify-content: space-between;
+  border: 2px solid darkgray;
+  padding: 5px;
+}
+.follow div > * {
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,26 +1,36 @@
 {% extends 'base.html' %}
+{% load home_extras %}
 {% block content %}
-    {% if author == user_online %}
-        <h2>Modifier le billet</h2>
-        <form method="post">
-            {{ edit_form.as_p }}
-            {% csrf_token %}
-            <button type="submit" >Sauvegarder</button>
-        </form>
-        <hr>
-        <h3>Supprimer le billet ?</h3>
-        <form method="post">
-            {{ delete_form }}
-            {% csrf_token %}
-            <button type="submit" >Supprimer</button>
-        </form>
-    {% else %}
-        <h3>Poster une critique</h3>
-        <form method="post">
-            {{ post_review }}
-            {% csrf_token %}
-            <button type="submit" >Poster</button>
-        </form>
-    {% endif %}
-
+    <div class="container__post">
+        {% if author == user_online %}
+            <h2>Modifier le billet</h2>
+            <form method="post">
+                {{ edit_form.as_p }}
+                {% csrf_token %}
+                <button type="submit" >Sauvegarder</button>
+            </form>
+            <hr>
+            <h3>Supprimer le billet ?</h3>
+            <form method="post">
+                {{ delete_form }}
+                {% csrf_token %}
+                <button type="submit" >Supprimer</button>
+            </form>
+        {% else %}
+            <h2>Vous êtes en train de poster en réponse à :</h2>
+            <div class="container__post__ticket">
+                <a href="{% url 'post_view' blog.id %}">
+                    <h4>Billet : {{ blog.title }}</h4>
+                    <div>
+                        <img src="{{ blog.image.url }}">
+                    </div>
+                </a>
+            </div>
+            <form method="post">
+                {{ post_review.as_p }}
+                {% csrf_token %}
+                <button type="submit" >Poster</button>
+            </form>
+        {% endif %}
+    </div>
 {% endblock content %}

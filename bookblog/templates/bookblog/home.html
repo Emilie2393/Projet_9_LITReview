@@ -37,16 +37,16 @@
                 {% if post.ticket in not_reviewed_by_user %}
                     <button><a href="{% url 'post_review' post.ticket.id %}">Poster une critique</a></button>
                 {% endif %}
-                <a href="{% url 'post_view' post.ticket.id %}">
-                    <div>
-                        <h3>Livre : {{ post.ticket.title }}</h3>
-                        <h4>Description : {{ post.ticket.description }}</h4>
-                    </div>
+                <a class = "container__post__ticket__display" href="{% url 'post_view' post.ticket.id %}">
                     {% if post.ticket.image %}
                     <div>
                         <img src="{{ post.ticket.image.url }}">
                     </div>
                     {% endif %}
+                    <div>
+                        <h3>Livre : {{ post.ticket.title }}</h3>
+                        <h4>Description : {{ post.ticket.description }}</h4>
+                    </div>
                 </a>
             </div>
         </div>
@@ -60,16 +60,16 @@
                 {% if post in not_reviewed_by_user %}
                     <button><a href="{% url 'post_review' post.id %}">Poster une critique</a></button>
                 {% endif %}
-                <a href="{% url 'post_view' post.id %}">
-                    <div>
-                        <h3>Livre : {{ post.title }}</h3>
-                        <h4>Description : {{ post.description }}</h4>
-                    </div>
+                <a class = "container__post__ticket__display" href="{% url 'post_view' post.id %}">
                     {% if post.image %}
                     <div>
                         <img src="{{ post.image.url }}">
                     </div>
                     {% endif %}
+                    <div>
+                        <h3>Livre : {{ post.title }}</h3>
+                        <h4>Description : {{ post.description }}</h4>
+                    </div>
                 </a>
             </div>
         </div>

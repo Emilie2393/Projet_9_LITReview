@@ -46,10 +46,16 @@ body {
   background-color: white;
   text-align: center;
 }
-.container__post__ticket a {
+.container__post__ticket__display {
   text-decoration: none;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  margin: 30 100 0 50;
+}
+.container__post__ticket__display div:nth-child(2) {
+  max-width: 240px;
+  flex-direction: column;
 }
 .container__post__ticket h3, .container__post__ticket h4 {
   margin-left: 15px;
@@ -69,7 +75,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 30px;
+  padding: 5px 30px 9px 30px;
   background-color: whitesmoke;
   border-radius: 10px;
 }
@@ -116,6 +122,7 @@ form p div div, form li div div {
 button {
   cursor: pointer;
   width: 143px;
+  margin: 5px;
 }
 
 .followpage input {

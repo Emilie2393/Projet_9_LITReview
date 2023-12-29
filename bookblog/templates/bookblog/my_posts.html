@@ -8,14 +8,16 @@
                     <div class="container__post__ticket">
                         <h2>Ticket créé le {{post.time_created}}</h2>
                         <button><a href="{% url 'edit_blog' post.id %}">Modifier le ticket</a></button>
-                        <a href="{% url 'post_view' post.id %}">
-                            <h3>Livre : {{ post.title }}</h3>
-                            <h4>Description : {{ post.description }}</h4>
+                        <a class = "container__post__ticket__display" href="{% url 'post_view' post.id %}">
                             {% if post.image %}
                             <div>
                                 <img src="{{ post.image.url }}">
                             </div>
                             {% endif %}
+                            <div>
+                                <h3>Livre : {{ post.title }}</h3>
+                                <h4>Description : {{ post.description }}</h4>
+                            </div>
                         </a> 
                     </div>
                 </div>
@@ -40,14 +42,16 @@
                     <button><a href="{% url 'edit_review' post.id %}">Modifier votre critique</a></button>
                 </div>
                 <div class="container__post__ticket">
-                    <a href="{% url 'post_view' post.ticket.id %}">
-                        <h3>Livre : {{ post.ticket.title }}</h3>
-                        <h4>Description : {{ post.ticket.description }}</h4>
+                    <a class = "container__post__ticket__display" href="{% url 'post_view' post.ticket.id %}">
                         {% if post.ticket.image %}
                         <div>
                             <img src="{{ post.ticket.image.url }}">
                         </div>
                         {% endif %}
+                        <div>
+                            <h3>Livre : {{ post.ticket.title }}</h3>
+                            <h4>Description : {{ post.ticket.description }}</h4>
+                        </div>
                     </a>
                 </div>
             </div>

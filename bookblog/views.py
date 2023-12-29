@@ -29,10 +29,7 @@ def home(request):
                     key=lambda post: post.time_created,
                     reverse=True
                     )
-    print(posts)
-    
-    paginator = Paginator(posts, len(posts)/2)
-    print(paginator.num_pages)
+    paginator = Paginator(posts, len(posts)/4)
     page_number = request.GET.get('page')
     current_page = paginator.get_page(page_number)
     context = {'posts': current_page,

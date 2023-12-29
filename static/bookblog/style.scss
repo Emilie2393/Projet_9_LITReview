@@ -43,10 +43,16 @@ body {
             border-radius: 10px;
             background-color: white;
             text-align: center;
-            & a {
+            &__display {
                 text-decoration: none;
                 display: flex;
                 flex-direction: row;
+                justify-content: space-between;
+                margin: 30 100 0 50;
+                & div:nth-child(2) {
+                    max-width: 240px;
+                    flex-direction: column;
+                }
             }
             & h3, h4 {
                 margin-left: 15px;
@@ -67,7 +73,7 @@ body {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 5px 30px;
+            padding: 5px 30px 9px 30px;
             background-color: whitesmoke;
             border-radius: 10px;
             & h2 {
@@ -117,6 +123,7 @@ form {
 button {
     cursor: pointer;
     width: 143px;
+    margin: 5px;
 }
 
 .followpage {

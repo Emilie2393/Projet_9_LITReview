@@ -1,18 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>{{ blog.title }}</h2>
-    {% if author == user_online %}
-        <p><a href="{% url 'edit_blog' blog.id %}">Modifier le billet</a></p>
-    {% endif %}
-    {% if not reviews %}
-        <p><a href="{% url 'post_review' blog.id %}">Poster une critique</a></p>
-    {% endif %}
-    <img src="{{ blog.image.url }}">
-    <p>{{ blog.photo.caption }}</p>
-    <p>{{ blog.content }}</p>
-    {% for review in reviews %}
-        <div class="post">
-            <p>{{ review.headline }}</p>
+    <div class="container__post">
+        <div class="container__post__view">
+            <h2>{{ blog.title }}</h2>
+            <p>Crée le {{ blog.time_created }}</p>
         </div>
-    {% endfor %}
+        {% if author == user_online %}
+            <p><a href="{% url 'edit_blog' blog.id %}">Modifier le billet</a></p>
+        {% endif %}
+        {% if not reviewed_by_user %}
+            <p><a href="{% url 'post_review' blog.id %}">Poster une critique</a></p>
+        {% endif %}
+        {% if blog.image%}
+            <img src="{{ blog.image.url }}">
+            <p>{{ blog.photo.caption }}</p>
+        {% endif %}
+        <p>{{ blog.description }}</p>
+        {% if reviews %}
+            <h3>Critiques de ce livre</h3>
+            {% for review in reviews %}
+                <div class="post">
+                    <p>{{ review.headline }}</p>
+                    <p>{{ review.body }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock content %}

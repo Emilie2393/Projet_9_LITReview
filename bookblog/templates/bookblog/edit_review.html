@@ -3,16 +3,16 @@
 {% block content %}
     <div class="container__post">
         {% if author == user_online %}
-            <h2>Modifier le billet</h2>
-            <form method="post" enctype="multipart/form-data">
-                {{ edit_form.as_ul }}
+            <h2>Modifier la critique</h2>
+            <form method="post">
+                {{ edit_review.as_ul }}
                 {% csrf_token %}
                 <button type="submit" >Sauvegarder</button>
             </form>
             <hr>
-            <h3>Supprimer le billet ?</h3>
+            <h3>Supprimer la critique ?</h3>
             <form method="post">
-                {{ delete_form }}
+                {{ delete_review }}
                 {% csrf_token %}
                 <button type="submit" >Supprimer</button>
             </form>
@@ -20,11 +20,9 @@
         <div class="container__post__ticket">
             <a href="{% url 'post_view' blog.id %}">
                 <h4>Billet : {{ blog.title }}</h4>
-                {% if blog.image %}
                 <div>
                     <img src="{{ blog.image.url }}">
                 </div>
-                {% endif %}
             </a>
         </div>
     </div>

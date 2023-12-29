@@ -1,50 +1,96 @@
 {% extends 'base.html' %}
 {% load home_extras %}
 {% block content %}
-    <main class="container">
-        {% for post in posts %}
-            {% if post.content_type == 'TICKET' %}
-            <div class="container__post">
-                {% for item in not_reviewed %}
-                    {% if item == post %}
-                        <p><span>{{post.user}}</span> a demandé une critique </p>
-                        <p>{{post.title}} </p>
-                        <button><a href="{% url 'post_review' post.id %}">Poster une critique</a></button>
-                    {% else %}
-                        {% for review in posts %}
-                            {% if review.content_type == 'REVIEW' %}
-                                {% if review.ticket == post %}
-                                    <p><span>{{review.user}}</span> à posté cette critique</p>
-                                    <p>{{review.headline}} 
-                                        {% with ''|center:review.rating as range %}
-                                            {% for _ in range %}
-                                                &#9733;
-                                            {% endfor %}
-                                        {% endwith %}
-                                        {% with review.rating|empty_stars as empty %}
-                                            {% with ''|center:empty as range %}
-                                                {% for _ in range %}
-                                                    &#9734;
-                                                {% endfor %}
-                                            {% endwith %}
-                                        {% endwith %}
-                                    </p>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                        <div class="container__post__ticket">
-                            <a href="{% url 'post_view' post.id %}">
-                                <h4>Billet : {{ post.title }}</h4>
-                                <div>
-                                    <img src="{{ post.image.url }}">
-                                </div>
-                            </a>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+<main class="container">
+    {% for post in posts %}
+        {% if post.content_type == 'REVIEW' %}
+        <div class="container__post">
+            {% if post.user == user %}
+                <p><span>Vous</span> avez posté cette critique le {{post.time_created}} :</p>
+            {% else %}
+                <p><span>{{post.user}}</span> a posté cette critique le {{post.time_created}} :</p>
             {% endif %}
+            <div class="container__post__view">
+                <div>{{post.headline}} 
+                    {% with ''|center:post.rating as range %}
+                        {% for _ in range %}
+                            &#9733;
+                        {% endfor %}
+                    {% endwith %}
+                    {% with post.rating|empty_stars as empty %}
+                        {% with ''|center:empty as range %}
+                            {% for _ in range %}
+                                &#9734;
+                            {% endfor %}
+                        {% endwith %}
+                    {% endwith %}
+                </div>
+                {% if post.user == user %}
+                    <button><a href="{% url 'edit_review' post.id %}">Modifier votre critique</a></button>
+                {% endif %}
             </div>
-        {% endfor %}
-    </main>
+            <div class="container__post__ticket">
+                <h2>Ticket créé le {{post.ticket.time_created}} par {{post.ticket.user}}</h2>
+                {% if post.ticket.user == user%}
+                    <button><a href="{% url 'edit_blog' post.ticket.id %}">Modifier le ticket</a></button>
+                {% endif %}
+                {% if post.ticket in not_reviewed_by_user %}
+                    <button><a href="{% url 'post_review' post.ticket.id %}">Poster une critique</a></button>
+                {% endif %}
+                <a href="{% url 'post_view' post.ticket.id %}">
+                    <div>
+                        <h3>Livre : {{ post.ticket.title }}</h3>
+                        <h4>Description : {{ post.ticket.description }}</h4>
+                    </div>
+                    {% if post.ticket.image %}
+                    <div>
+                        <img src="{{ post.ticket.image.url }}">
+                    </div>
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="container__post">
+            <div class="container__post__ticket">
+                <h2>Ticket créé le {{post.time_created}} par {{post.user}}</h2>
+                {% if post.user == user%}
+                    <button><a href="{% url 'edit_blog' post.id %}">Modifier le ticket</a></button>
+                {% endif %}
+                {% if post in not_reviewed_by_user %}
+                    <button><a href="{% url 'post_review' post.id %}">Poster une critique</a></button>
+                {% endif %}
+                <a href="{% url 'post_view' post.id %}">
+                    <div>
+                        <h3>Livre : {{ post.title }}</h3>
+                        <h4>Description : {{ post.description }}</h4>
+                    </div>
+                    {% if post.image %}
+                    <div>
+                        <img src="{{ post.image.url }}">
+                    </div>
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    <span>
+        {% if posts.has_previous %}
+            <a href="?page=1">« première</a>
+            <a href="?page={{ posts.previous_page_number }}">précédente</a>
+        {% endif %}
+    
+        <span>
+            Page {{ posts.number }} sur {{ posts.paginator.num_pages }}.
+
+        </span>
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}">suivante</a>
+            
+            <a href="?page={{ posts.paginator.num_pages }}">dernière »</a>
+        {% endif %}
+    </span>
+</main>
     
 {% endblock content %}

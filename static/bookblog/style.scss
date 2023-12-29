@@ -7,8 +7,10 @@ body {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
-    background-color: rgb(204, 166, 166);
+    height: 130px;
     align-items: center;
+    background-image: url("../../media/abstract_pattern_design_background_2007.jpg");
+    background-size: cover;
     &__links {
         display: flex;
         & > * {
@@ -20,11 +22,14 @@ body {
 .container{
     margin: 100px;
     &__post{
-        border: 2px solid brown;
+        border: 2px solid rgb(132, 133, 134);
         border-radius: 10px;
         margin: 20px;
         padding: 12px;
-        background-color: rgb(232, 218, 217);
+        background-color: rgb(201, 209, 226);
+        & p {
+            font-size: 19px;
+        }
         & span {
             font-weight: bold;
             font-size: 18px;
@@ -33,15 +38,19 @@ body {
             margin-left: 10px;
         }
         &__ticket{
-            margin: 10px;
-            border: 2px solid rgb(125, 61, 61);
+            margin: 10 0 10 0;
+            border: 2px solid rgb(108, 110, 120);
             border-radius: 10px;
             background-color: white;
+            text-align: center;
             & a {
                 text-decoration: none;
+                display: flex;
+                flex-direction: row;
             }
-            & h4 {
+            & h3, h4 {
                 margin-left: 15px;
+                color: rgb(67, 61, 61);
             }
             & div {
                 display: flex;
@@ -53,11 +62,40 @@ body {
                 }
             }
         }
+        &__view{
+            margin-left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 30px;
+            background-color: whitesmoke;
+            border-radius: 10px;
+            & h2 {
+                margin: 5px 0;
+                font-size: 20px;
+            }
+        }
     }
 }
 
-.follow_page {
-    justify-content: center;
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    & p, li {
+        margin: 10px;
+        display: flex;
+        & label {
+            width: 100px;
+        }
+        & div {
+            display: flex;
+            & div {
+                width: 50px;
+            }
+        }
+    }
 }
 
 .follow {
@@ -78,6 +116,14 @@ body {
 
 button {
     cursor: pointer;
+    width: 143px;
+}
+
+.followpage {
+    & input {
+    max-width: 300px;
+    margin-bottom: 15px;
+    }
 }
 
 

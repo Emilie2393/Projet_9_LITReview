@@ -7,8 +7,10 @@ body {
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-around;
-  background-color: rgb(204, 166, 166);
+  height: 130px;
   align-items: center;
+  background-image: url("../../media/abstract_pattern_design_background_2007.jpg");
+  background-size: cover;
 }
 .navigation__links {
   display: flex;
@@ -21,11 +23,14 @@ body {
   margin: 100px;
 }
 .container__post {
-  border: 2px solid brown;
+  border: 2px solid rgb(132, 133, 134);
   border-radius: 10px;
   margin: 20px;
   padding: 12px;
-  background-color: rgb(232, 218, 217);
+  background-color: rgb(201, 209, 226);
+}
+.container__post p {
+  font-size: 19px;
 }
 .container__post span {
   font-weight: bold;
@@ -35,16 +40,20 @@ body {
   margin-left: 10px;
 }
 .container__post__ticket {
-  margin: 10px;
-  border: 2px solid rgb(125, 61, 61);
+  margin: 10 0 10 0;
+  border: 2px solid rgb(108, 110, 120);
   border-radius: 10px;
   background-color: white;
+  text-align: center;
 }
 .container__post__ticket a {
   text-decoration: none;
+  display: flex;
+  flex-direction: row;
 }
-.container__post__ticket h4 {
+.container__post__ticket h3, .container__post__ticket h4 {
   margin-left: 15px;
+  color: rgb(67, 61, 61);
 }
 .container__post__ticket div {
   display: flex;
@@ -55,9 +64,37 @@ body {
   border: 1px solid #808080;
   margin-bottom: 10px;
 }
+.container__post__view {
+  margin-left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 30px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+}
+.container__post__view h2 {
+  margin: 5px 0;
+  font-size: 20px;
+}
 
-.follow_page {
-  justify-content: center;
+form {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+form p, form li {
+  margin: 10px;
+  display: flex;
+}
+form p label, form li label {
+  width: 100px;
+}
+form p div, form li div {
+  display: flex;
+}
+form p div div, form li div div {
+  width: 50px;
 }
 
 .follow {
@@ -78,6 +115,12 @@ body {
 
 button {
   cursor: pointer;
+  width: 143px;
+}
+
+.followpage input {
+  max-width: 300px;
+  margin-bottom: 15px;
 }
 
 /*# sourceMappingURL=style.css.map */

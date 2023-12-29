@@ -7,9 +7,9 @@
             <h2>Demander une critique</h2>
         {% endif %}
         <form method="post" enctype="multipart/form-data">
-            {{ blog_form.as_p }}
+            {{ blog_form.as_ul }}
             {% if review_form %}
-                {{ review_form.as_p }}
+                {{ review_form.as_ul }}
             {% endif %}
             {% csrf_token %}
             <button type="submit" >Publier</button>

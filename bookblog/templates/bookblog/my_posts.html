@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load home_extras %}
+{% block content %}
+    <main class="container">
+        {% for post in posts %}
+            {% if post.content_type == 'TICKET' %}
+                <div class="container__post">
+                    <div class="container__post__ticket">
+                        <h2>Ticket créé le {{post.time_created}}</h2>
+                        <button><a href="{% url 'edit_blog' post.id %}">Modifier le ticket</a></button>
+                        <a href="{% url 'post_view' post.id %}">
+                            <h3>Livre : {{ post.title }}</h3>
+                            <h4>Description : {{ post.description }}</h4>
+                            {% if post.image %}
+                            <div>
+                                <img src="{{ post.image.url }}">
+                            </div>
+                            {% endif %}
+                        </a> 
+                    </div>
+                </div>
+            {% elif post.content_type == 'REVIEW' %}
+            <div class="container__post">
+                <p><span>Vous</span> avez posté cette critique le {{post.time_created}} :</p>
+                <div class="container__post__view">
+                    <div>{{post.headline}} 
+                        {% with ''|center:post.rating as range %}
+                            {% for _ in range %}
+                                &#9733;
+                            {% endfor %}
+                        {% endwith %}
+                        {% with post.rating|empty_stars as empty %}
+                            {% with ''|center:empty as range %}
+                                {% for _ in range %}
+                                    &#9734;
+                                {% endfor %}
+                            {% endwith %}
+                        {% endwith %}
+                    </div>
+                    <button><a href="{% url 'edit_review' post.id %}">Modifier votre critique</a></button>
+                </div>
+                <div class="container__post__ticket">
+                    <a href="{% url 'post_view' post.ticket.id %}">
+                        <h3>Livre : {{ post.ticket.title }}</h3>
+                        <h4>Description : {{ post.ticket.description }}</h4>
+                        {% if post.ticket.image %}
+                        <div>
+                            <img src="{{ post.ticket.image.url }}">
+                        </div>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </main>
+    
+{% endblock content %}

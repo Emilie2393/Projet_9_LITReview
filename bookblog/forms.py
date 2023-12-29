@@ -16,12 +16,12 @@ class ToFollow(forms.Form):
 class ReviewForm(forms.ModelForm):
     post_review = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     class Meta:
-        CHOICES = [(i, i) for i in range(1, 6)]
         model = models.Review
-        fields = ['headline', 'rating', 'body']
         widgets = {
-            'rating': forms.RadioSelect(choices=CHOICES),
+            'rating': forms.RadioSelect(choices=[(i, i) for i in range(1, 6)]),
         }
+        fields = ['headline', 'rating', 'body']
+        
 
 class TicketForm(forms.ModelForm):
     edit_post = forms.BooleanField(widget=forms.HiddenInput, initial=True)
@@ -32,6 +32,4 @@ class TicketForm(forms.ModelForm):
 class DeleteBlogForm(forms.Form):
     delete_blog = forms.BooleanField(widget=forms.HiddenInput, initial=True)
 
-class UnSubscribe(forms.Form):
-    unsubscribe = forms.BooleanField(widget=forms.HiddenInput, initial=True)
     

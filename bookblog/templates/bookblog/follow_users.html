@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container__post follow_page">
+    <div class="container__post followpage">
         <h2>Suivre des utilisateurs</h2>
         <form method="post">
             {% csrf_token %}
@@ -9,11 +9,17 @@
         </form>
         {% if user_to_follow %}
             <div class="post">
-                <a href="{% url 'user_view' user_to_follow.id %}">
-                    <h3>
-                        {{ user_to_follow.username}}
-                    </h3>
-                </a>
+                <h3>
+                    {{ user_to_follow.username}}
+                </h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="follow" value="{{user_to_follow.id}}">S'abonner</button>
+                </form>
+            </div>
+        {% elif error %}
+            <div class="error">
+                {{ error }}
             </div>
         {% endif %}
         {% if followers %}

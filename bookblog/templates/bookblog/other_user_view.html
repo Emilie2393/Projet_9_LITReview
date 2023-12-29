@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block content %}
-    <h2>Suivre des utilisateurs</h2>
-        <h2>{{ user_to_follow.username }}</h2>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit">S'abonner</button>
-        </form>
-{% endblock content %}

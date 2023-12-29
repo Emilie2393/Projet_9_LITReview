@@ -6,6 +6,7 @@ from django.db.models import Q
 from authentication import models as mod
 from itertools import chain
 from django.db.models import CharField, Value
+from django.core.paginator import Paginator
 
 # Create your views here.
 @login_required
@@ -14,21 +15,45 @@ def home(request):
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
     reviews = models.Review.objects.all()
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
-    not_reviewed = []
+    user = request.user
+    not_reviewed_by_user = []
     for ticket in tickets:
-        review_flag = None
+        user_flag = None
         for review in reviews:
             if review.ticket == ticket:
-                review_flag = 1
-        if review_flag is None:
-            not_reviewed.append(ticket)
+                if review.user == request.user:
+                    user_flag = 1
+        if user_flag is None:
+            not_reviewed_by_user.append(ticket)
+    posts = sorted(chain(reviews, tickets),
+                    key=lambda post: post.time_created,
+                    reverse=True
+                    )
+    print(posts)
+    
+    paginator = Paginator(posts, len(posts)/2)
+    print(paginator.num_pages)
+    page_number = request.GET.get('page')
+    current_page = paginator.get_page(page_number)
+    context = {'posts': current_page,
+               'not_reviewed_by_user': not_reviewed_by_user,
+               'user': user}
+    return render(request, 'bookblog/home.html', context=context)
+
+@login_required
+def my_posts(request):
+    tickets = models.Ticket.objects.filter(Q(user=request.user))
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+    reviews = models.Review.objects.filter(Q(user=request.user))
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+    user = request.user
     posts = sorted(chain(reviews, tickets),
                     key=lambda post: post.time_created,
                     reverse=True
                     )
     context = {'posts': posts,
-               'not_reviewed': not_reviewed}
-    return render(request, 'bookblog/home.html', context=context)
+               'user': user}
+    return render(request, 'bookblog/my_posts.html', context=context)
 
 @login_required
 def blog_and_photo_upload(request):
@@ -58,21 +83,27 @@ def blog_and_photo_upload(request):
 def post_view(request, blog_id):
     blog = get_object_or_404(models.Ticket, id=blog_id)
     reviews = models.Review.objects.filter(Q(ticket=blog))
+    reviewed_by_user = None
+    for review in reviews:
+        if review.user == request.user:
+            reviewed_by_user == True
+            break
+    
     context = {'author': blog.user,
                'user_online': request.user,
                'blog': blog,
-               'reviews': reviews}
+               'reviews': reviews,
+               'reviewed_by_user': reviewed_by_user}
     return render(request, 'bookblog/post_view.html', context=context)
 
 @login_required
 def edit_post(request, blog_id):
     blog = get_object_or_404(models.Ticket, id=blog_id)
     edit_form = forms.TicketForm(instance=blog)
-    post_review = forms.ReviewForm()
     delete_form = forms.DeleteBlogForm()
     if request.method == 'POST':
         if 'edit_post' in request.POST:
-            edit_form = forms.TicketForm(request.POST, instance=blog)
+            edit_form = forms.TicketForm(request.POST, request.FILES, instance=blog)
             if edit_form.is_valid():
                 edit_form.save()
                 return redirect('home')
@@ -81,22 +112,56 @@ def edit_post(request, blog_id):
             if delete_form.is_valid():
                 blog.delete()
                 return redirect('home')
-        if 'post_review' in request.POST:
-            post_review = forms.ReviewForm(request.POST)
-            if post_review.is_valid():
-                review = post_review.save(commit=False)
-                review.ticket = blog
-                review.user = request.user
-                review.save()
-                return redirect("home")
+        
     context = {
         'edit_form': edit_form,
         'delete_form': delete_form,
-        'post_review': post_review,
         'author': blog.user,
         'user_online': request.user,
         'blog': blog}
     return render(request, 'bookblog/edit_post.html', context=context)
+
+@login_required
+def create_review(request, blog_id):
+    blog = get_object_or_404(models.Ticket, id=blog_id)
+    post_review = forms.ReviewForm()
+    if 'post_review' in request.POST:
+        post_review = forms.ReviewForm(request.POST)
+        if post_review.is_valid():
+            review = post_review.save(commit=False)
+            review.ticket = blog
+            review.user = request.user
+            review.save()
+            return redirect("home")
+    context = {
+        'post_review': post_review,
+        'blog': blog
+    }
+    return render(request, 'bookblog/create_review.html', context=context)
+
+@login_required
+def edit_review(request, review_id):
+    review = get_object_or_404(models.Review, id=review_id)
+    blog = review.ticket
+    edit_review = forms.ReviewForm(instance=review)
+    delete_review = forms.DeleteBlogForm()
+    if 'post_review' in request.POST:
+        edit_review = forms.ReviewForm(request.POST, instance=review)
+        if edit_review.is_valid():
+            edit_review.save()
+            return redirect("home")
+    if 'delete_blog' in request.POST:
+        delete_review = forms.DeleteBlogForm(request.POST)
+        if delete_review.is_valid():
+            review.delete()
+            return redirect('home')
+    context = {
+        'edit_review': edit_review,
+        'delete_review': delete_review,
+        'blog': blog
+    }
+    return render(request, 'bookblog/edit_review.html', context=context)
+
 
 @login_required
 def user_view(request, user_id):
@@ -114,16 +179,24 @@ def users_search(request):
     context = {"followers": followers,
                "follows": follows}
     if request.method == 'POST':
-        print(request.POST)
         if 'search' in request.POST:
             if request.POST['search'] != request.user.username:
-                user_to_follow = mod.User.objects.get(Q(username=request.POST['search']))
-                context = {"followers": followers,
-                            "follows": follows,
-                            "user_to_follow": user_to_follow}
+                try:
+                    user_to_follow = mod.User.objects.get(Q(username=request.POST['search']))
+                    context = {"followers": followers,
+                                "follows": follows,
+                                "user_to_follow": user_to_follow}
+                except:
+                    error = "Utilisateur non trouvé"
+                    context = {"followers": followers,
+                                "follows": follows,
+                                "error": error}
         if 'data' in request.POST:
             request.user.follows.remove(mod.User.objects.get(Q(id=request.POST['data'])))
             mod.User.objects.get(Q(id=request.POST['data'])).followed_by.remove(request.user)
+        if 'follow' in request.POST:
+            request.user.follows.add(mod.User.objects.get(Q(id=request.POST['follow'])))
+            mod.User.objects.get(Q(id=request.POST['follow'])).followed_by.add(request.user)
 
     return render(request, 'bookblog/follow_users.html', context)
 

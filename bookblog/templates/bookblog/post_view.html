@@ -1,29 +1,54 @@
 {% extends 'base.html' %}
+{% load rating_extras %}
 {% block content %}
     <div class="container__post">
         <div class="container__post__view">
             <h2>{{ blog.title }}</h2>
-            <p>Crée le {{ blog.time_created }}</p>
-        </div>
+            <p>crée le {{ blog.time_created }}</p>
+        
         {% if author == user_online %}
-            <p><a href="{% url 'edit_blog' blog.id %}">Modifier le billet</a></p>
+            <a href="{% url 'edit_blog' blog.id %}">Modifier le billet</a>
         {% endif %}
         {% if not reviewed_by_user %}
-            <p><a href="{% url 'post_review' blog.id %}">Poster une critique</a></p>
+            <a href="{% url 'post_review' blog.id %}">Poster une critique</a>
         {% endif %}
-        {% if blog.image%}
-            <img src="{{ blog.image.url }}">
-            <p>{{ blog.photo.caption }}</p>
-        {% endif %}
-        <p>{{ blog.description }}</p>
-        {% if reviews %}
-            <h3>Critiques de ce livre</h3>
-            {% for review in reviews %}
-                <div class="post">
-                    <p>{{ review.headline }}</p>
-                    <p>{{ review.body }}</p>
-                </div>
-            {% endfor %}
-        {% endif %}
+        </div>
+        <div class="display">
+            <div>
+            <p>{{blog.title}} : {{ blog.description }}</p>
+            {% if blog.image%}
+            
+                <img src="{{ blog.image.url }}">
+                <p>{{ blog.photo.caption }}</p>
+            {% endif %}
+            
+            </div>
+            <div class="display__review">
+            {% if reviews %}
+                <h3>Critiques de ce livre</h3>
+                {% for review in reviews %}
+                    <div class="display__review__data">
+                        <p>Ecrite le {{review.time_created}} par {{review.user}} : </p>
+                        <div>
+                            <p>{{ review.headline }}</p>
+                            {% with ''|center:review.rating as range %}
+                                {% for _ in range %}
+                                    &#9733;
+                                {% endfor %}
+                            {% endwith %}
+                            {% with review.rating|empty_stars as empty %}
+                                {% with ''|center:empty as range %}
+                                    {% for _ in range %}
+                                        &#9734;
+                                    {% endfor %}
+                                {% endwith %}
+                            {% endwith %}
+                        </div>
+                        <p>{{ review.body }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock content %}

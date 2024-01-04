@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load home_extras %}
+{% load rating_extras %}
 {% block content %}
 <main class="container">
     {% for post in posts %}
@@ -30,22 +30,25 @@
                 {% endif %}
             </div>
             <div class="container__post__ticket">
-                <h2>Ticket créé le {{post.ticket.time_created}} par {{post.ticket.user}}</h2>
+                <h2>
+                    <span>Ticket créé par {{post.user}}</span> 
+                    <span>le {{post.time_created}}</span>
+                </h2>
                 {% if post.ticket.user == user%}
                     <button><a href="{% url 'edit_blog' post.ticket.id %}">Modifier le ticket</a></button>
                 {% endif %}
                 {% if post.ticket in not_reviewed_by_user %}
                     <button><a href="{% url 'post_review' post.ticket.id %}">Poster une critique</a></button>
                 {% endif %}
-                <a class = "container__post__ticket__display" href="{% url 'post_view' post.ticket.id %}">
+                <a class = "container__post__ticket display" href="{% url 'post_view' post.ticket.id %}">
                     {% if post.ticket.image %}
                     <div>
                         <img src="{{ post.ticket.image.url }}">
                     </div>
                     {% endif %}
-                    <div>
+                    <div class="display__post">
                         <h3>Livre : {{ post.ticket.title }}</h3>
-                        <h4>Description : {{ post.ticket.description }}</h4>
+                        <h4>Genre : {{ post.ticket.description }}</h4>
                     </div>
                 </a>
             </div>
@@ -53,22 +56,25 @@
         {% else %}
         <div class="container__post">
             <div class="container__post__ticket">
-                <h2>Ticket créé le {{post.time_created}} par {{post.user}}</h2>
+                <h2>
+                    <span>Ticket créé par {{post.user}}</span> 
+                    <span>le {{post.time_created}}</span>
+                </h2>
                 {% if post.user == user%}
                     <button><a href="{% url 'edit_blog' post.id %}">Modifier le ticket</a></button>
                 {% endif %}
                 {% if post in not_reviewed_by_user %}
                     <button><a href="{% url 'post_review' post.id %}">Poster une critique</a></button>
                 {% endif %}
-                <a class = "container__post__ticket__display" href="{% url 'post_view' post.id %}">
+                <a class = "container__post__ticket display" href="{% url 'post_view' post.id %}">
                     {% if post.image %}
                     <div>
                         <img src="{{ post.image.url }}">
                     </div>
                     {% endif %}
-                    <div>
+                    <div class="display__post">
                         <h3>Livre : {{ post.title }}</h3>
-                        <h4>Description : {{ post.description }}</h4>
+                        <h4>Genre : {{ post.description }}</h4>
                     </div>
                 </a>
             </div>

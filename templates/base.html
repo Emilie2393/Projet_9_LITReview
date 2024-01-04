@@ -5,10 +5,10 @@
     </head>
     <link rel="stylesheet" href="{% static 'bookblog/style.css' %}" />
     <body>
+        
+        {% if user.is_authenticated %}
         <nav class="navigation">
             <h1>LitReview</h1>
-            {% if user.is_authenticated %}
-            
             <div class="navigation__links">
                 <p><a href="{% url 'home' %}">Accueil</a></p>
                 <p><a href="{% url 'my_posts' %}">Mes posts</a></p>

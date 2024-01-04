@@ -11,25 +11,30 @@ from django.core.paginator import Paginator
 # Create your views here.
 @login_required
 def home(request):
+    """ Welcome page view to see user and followed_user posts"""
     tickets = models.Ticket.objects.filter(Q(user__in=request.user.follows.all()) | Q(user=request.user))
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
     reviews = models.Review.objects.all()
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
     user = request.user
     not_reviewed_by_user = []
+    # check if user have rewiewed ticket or not
     for ticket in tickets:
         user_flag = None
         for review in reviews:
             if review.ticket == ticket:
                 if review.user == request.user:
                     user_flag = 1
+        # if not, user is added to not_reviewed_by_user and 'add review' is added on html ticket
         if user_flag is None:
             not_reviewed_by_user.append(ticket)
+    # sorts posts by the most recent time of creation
     posts = sorted(chain(reviews, tickets),
                     key=lambda post: post.time_created,
                     reverse=True
                     )
-    paginator = Paginator(posts, len(posts)/4)
+    # number of posts by page will be limited to 4
+    paginator = Paginator(posts, 4)
     page_number = request.GET.get('page')
     current_page = paginator.get_page(page_number)
     context = {'posts': current_page,
@@ -39,6 +44,7 @@ def home(request):
 
 @login_required
 def my_posts(request):
+    """ User view to see his own tickets and reviews only """
     tickets = models.Ticket.objects.filter(Q(user=request.user))
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
     reviews = models.Review.objects.filter(Q(user=request.user))
@@ -54,11 +60,14 @@ def my_posts(request):
 
 @login_required
 def blog_and_photo_upload(request):
+    """ Upload ticket and review form """
     ticket_form = forms.TicketForm()
     review_form = forms.ReviewForm()
+    # if url is blog_create and user wants to create both ticket and review posts
     if request.path != '/blog/askreview':
         context = {'review_form': review_form,
                    'blog_form': ticket_form}
+    # if user only want to ask a review for his ticket
     else:
         context = {'blog_form': ticket_form}
     if request.method == 'POST':
@@ -78,14 +87,16 @@ def blog_and_photo_upload(request):
 
 @login_required
 def post_view(request, blog_id):
+    """ Post view """
     blog = get_object_or_404(models.Ticket, id=blog_id)
     reviews = models.Review.objects.filter(Q(ticket=blog))
-    reviewed_by_user = None
+    reviewed_by_user = False
+    # check if ticket has been reviewed by user
     for review in reviews:
+        print(review.user, request.user)
         if review.user == request.user:
-            reviewed_by_user == True
+            reviewed_by_user = True
             break
-    
     context = {'author': blog.user,
                'user_online': request.user,
                'blog': blog,
@@ -95,6 +106,7 @@ def post_view(request, blog_id):
 
 @login_required
 def edit_post(request, blog_id):
+    """ Post edit view """
     blog = get_object_or_404(models.Ticket, id=blog_id)
     edit_form = forms.TicketForm(instance=blog)
     delete_form = forms.DeleteBlogForm()
@@ -180,9 +192,11 @@ def users_search(request):
             if request.POST['search'] != request.user.username:
                 try:
                     user_to_follow = mod.User.objects.get(Q(username=request.POST['search']))
+                    user_posts = models.Ticket.objects.filter(Q(user=user_to_follow))
                     context = {"followers": followers,
                                 "follows": follows,
-                                "user_to_follow": user_to_follow}
+                                "user_to_follow": user_to_follow,
+                                "user_posts": user_posts}
                 except:
                     error = "Utilisateur non trouvé"
                     context = {"followers": followers,

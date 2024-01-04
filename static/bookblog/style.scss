@@ -2,31 +2,56 @@ body {
     margin: 0;
 }
 
+#auth {
+    height: 100vh;
+    padding: 0;
+    border: none;
+    flex-direction: column;
+    & h1 {
+        font-size: 45px;
+    }
+}
+
 .navigation {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
-    height: 130px;
     align-items: center;
     background-image: url("../../media/abstract_pattern_design_background_2007.jpg");
     background-size: cover;
+    height:fit-content;
+    padding-bottom: 30px;
+    border-bottom: rgb(108, 102, 156) solid 8px;
     &__links {
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         & > * {
-            padding-right: 10px;
+            text-align: center;
+            padding: 3;
+            margin-right: 6;
+            background-color: whitesmoke;
+            border-radius: 5px;
+            & a {
+                text-decoration: none;
+                color: black;
+                font-size: 17px;
+            }
         }
     }
 }
 
 .container{
-    margin: 100px;
+    margin: 110px;
     &__post{
         border: 2px solid rgb(132, 133, 134);
         border-radius: 10px;
-        margin: 20px;
+        max-width: 840px;
+        margin: 30px auto;
         padding: 12px;
         background-color: rgb(201, 209, 226);
+        min-width: 300px;
         & p {
             font-size: 19px;
         }
@@ -43,20 +68,21 @@ body {
             border-radius: 10px;
             background-color: white;
             text-align: center;
-            &__display {
-                text-decoration: none;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                margin: 30 100 0 50;
-                & div:nth-child(2) {
-                    max-width: 240px;
-                    flex-direction: column;
-                }
-            }
             & h3, h4 {
-                margin-left: 15px;
                 color: rgb(67, 61, 61);
+            }
+            & h2 {
+                margin: 20px 0;
+                display: flex;
+                justify-content: space-between;
+                & > * {
+                    font-size: 16px;
+                    margin: 0 20;
+                }
+                & > :nth-child(2) {
+                    font-size: 14px;
+                    font-weight: normal;
+                }
             }
             & div {
                 display: flex;
@@ -76,14 +102,46 @@ body {
             padding: 5px 30px 9px 30px;
             background-color: whitesmoke;
             border-radius: 10px;
-            & h2 {
-                margin: 5px 0;
-                font-size: 20px;
-            }
+            & p {
+                font-size: 15px;
+                margin-right: 30%;
+            } 
         }
     }
 }
 
+.display {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 30 100 0 50;
+    border: none;
+    &__post {
+        max-width: 240px;
+        flex-direction: column;
+        height: fit-content;
+    }
+    &__review {
+        max-width: 340px;
+        & h3, p {
+            margin: 6px 0;
+        }
+        &__data {
+            background-color: whitesmoke;
+            padding: 5px;
+            border-radius: 10px;
+            & div {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                & p {
+                    margin-right: 10px;
+                }
+            }
+        } 
+    }
+}
 
 form {
     display: flex;
@@ -130,6 +188,72 @@ button {
     & input {
     max-width: 300px;
     margin-bottom: 15px;
+    }
+    &__result {
+        display: flex;
+        flex-direction: row;
+        background-color: whitesmoke;
+        border-radius: 10px;
+        width: fit-content;
+        & div {
+            margin-left: 15px;
+        }
+        & h3 {
+            color: rgb(47, 47, 88);
+            font-size: 25px;
+        }
+        & span {
+            margin: 5px;
+        }
+        &__posts {
+            margin: 9px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 0 10px;
+            text-align: center;
+            & h4 {
+                margin: 5px 0;
+            }
+            & img {
+                height: 160px;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 995px) {
+    .container{
+    margin: 20 5px 20px 5px;
+    &__post{
+        max-width: 640px;
+        &__ticket {
+            & a {
+                flex-direction: column;
+                align-items: center;
+            }
+            &__display{
+                margin:20 20 0 20;
+                & div:nth-child(2){
+                    margin-left:10px
+                }
+            }
+        }
+    }
+}
+    .navigation{
+        
+        &__links{
+            justify-content: space-around;
+        }
+        & p {
+            margin: 5px 5 10px 0;
+        }
+        & div {
+            display: flex;
+            text-align: center;
+            margin-top: 20px;
+        }
     }
 }
 

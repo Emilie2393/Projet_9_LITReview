@@ -53,6 +53,7 @@ footer {
 
 .container {
   margin: 60px;
+  min-height: 80vh;
 }
 .container h1 {
   margin: 0 auto;

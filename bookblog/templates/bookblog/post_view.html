@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load rating_extras %}
 {% block content %}
+<main class="container">
     <div class="container__post">
         <div class="container__post__view">
-            <h2>{{ blog.title }}</h2>
+            <h1>{{ blog.title }}</h1>
             <p>crée le {{ blog.time_created }}</p>
         
         {% if author == user_online %}
@@ -51,4 +52,5 @@
             </div>
         </div>
     </div>
+</main>
 {% endblock content %}

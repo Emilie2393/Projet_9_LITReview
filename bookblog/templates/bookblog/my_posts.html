@@ -2,12 +2,13 @@
 {% load rating_extras %}
 {% block content %}
     <main class="container">
+        <h1>Mes posts</h1>
         {% for post in posts %}
             {% if post.content_type == 'TICKET' %}
                 <div class="container__post">
                     <div class="container__post__ticket">
                         <h2>
-                            <span>Ticket créé par vous</span> 
+                            <span>Votre ticket</span> 
                             <span>le {{post.time_created}}</span>
                         </h2>
                         <button><a href="{% url 'edit_blog' post.id %}">Modifier le ticket</a></button>
@@ -29,14 +30,14 @@
                 <p><span>Vous</span> avez posté cette critique le {{post.time_created}} :</p>
                 <div class="container__post__view">
                     <div>{{post.headline}} 
-                        {% with ''|center:post.rating as range %}
-                            {% for _ in range %}
+                        {% with 'e'|center:post.rating as range %}
+                            {% for e in range %}
                                 &#9733;
                             {% endfor %}
                         {% endwith %}
                         {% with post.rating|empty_stars as empty %}
-                            {% with ''|center:empty as range %}
-                                {% for _ in range %}
+                            {% with 'e'|center:empty as range %}
+                                {% for e in range %}
                                     &#9734;
                                 {% endfor %}
                             {% endwith %}

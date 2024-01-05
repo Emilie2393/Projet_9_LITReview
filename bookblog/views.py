@@ -196,7 +196,7 @@ def users_search(request):
                     context = {"followers": followers,
                                 "follows": follows,
                                 "user_to_follow": user_to_follow,
-                                "user_posts": user_posts}
+                                "user_posts": user_posts[:3]}
                 except:
                     error = "Utilisateur non trouvé"
                     context = {"followers": followers,
@@ -208,7 +208,6 @@ def users_search(request):
         if 'follow' in request.POST:
             request.user.follows.add(mod.User.objects.get(Q(id=request.POST['follow'])))
             mod.User.objects.get(Q(id=request.POST['follow'])).followed_by.add(request.user)
-
     return render(request, 'bookblog/follow_users.html', context)
 
 

@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+<main class="container">
+    <h1>Trouver d'autres LitReviewers</h1>
     <div class="container__post followpage">
-        <h2>Suivre des utilisateurs</h2>
+        <h2>Chercher un utilisateur</h2>
         <form method="post">
             {% csrf_token %}
             <input type="search" name="search">
@@ -58,4 +60,5 @@
             </div>
         {% endif %}
     </div>
+</main>
 {% endblock content %}

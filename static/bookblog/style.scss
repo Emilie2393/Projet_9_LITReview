@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    font:status-bar;
 }
 
 #auth {
@@ -12,7 +13,7 @@ body {
     }
 }
 
-.navigation {
+.navigation, footer {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -20,9 +21,12 @@ body {
     align-items: center;
     background-image: url("../../media/abstract_pattern_design_background_2007.jpg");
     background-size: cover;
-    height:fit-content;
-    padding-bottom: 30px;
+    padding: 40px 0;
     border-bottom: rgb(108, 102, 156) solid 8px;
+    & h1 {
+        font-size: 35px;
+        margin: 0;
+    }
     &__links {
         display: flex;
         flex-wrap: wrap;
@@ -42,8 +46,18 @@ body {
     }
 }
 
+footer{
+    border-top: rgb(108, 102, 156) solid 8px;
+    border-bottom: none;
+}
+
 .container{
-    margin: 110px;
+    margin: 60px;
+    & h1 {
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+    }
     &__post{
         border: 2px solid rgb(132, 133, 134);
         border-radius: 10px;
@@ -70,13 +84,13 @@ body {
             text-align: center;
             & h3, h4 {
                 color: rgb(67, 61, 61);
+                font-size: 18px;
             }
             & h2 {
                 margin: 20px 0;
                 display: flex;
                 justify-content: space-between;
                 & > * {
-                    font-size: 16px;
                     margin: 0 20;
                 }
                 & > :nth-child(2) {
@@ -150,6 +164,8 @@ form {
     & p, li {
         margin: 10px;
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         & label {
             width: 100px;
         }
@@ -191,13 +207,11 @@ button {
     }
     &__result {
         display: flex;
+        flex-wrap: wrap;
         flex-direction: row;
+        justify-content: space-around;
         background-color: whitesmoke;
         border-radius: 10px;
-        width: fit-content;
-        & div {
-            margin-left: 15px;
-        }
         & h3 {
             color: rgb(47, 47, 88);
             font-size: 25px;
@@ -206,16 +220,22 @@ button {
             margin: 5px;
         }
         &__posts {
-            margin: 9px;
             background-color: white;
             border-radius: 10px;
+            margin: 10 0;
             padding: 0 10px;
             text-align: center;
+            width: 145px;
             & h4 {
                 margin: 5px 0;
+                height: 37px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
             & img {
-                height: 160px;
+                height: 170px;
+                width: 125px;
                 margin-bottom: 10px;
             }
         }
@@ -224,23 +244,17 @@ button {
 
 @media screen and (max-width: 995px) {
     .container{
-    margin: 20 5px 20px 5px;
+    margin: 20 5;
     &__post{
         max-width: 640px;
-        &__ticket {
-            & a {
-                flex-direction: column;
-                align-items: center;
-            }
-            &__display{
-                margin:20 20 0 20;
-                & div:nth-child(2){
-                    margin-left:10px
-                }
-            }
         }
     }
-}
+
+    .display {
+        flex-direction: column;
+        align-items: center;
+        margin: 30 50;
+    }
     .navigation{
         
         &__links{

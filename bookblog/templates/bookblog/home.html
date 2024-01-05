@@ -2,6 +2,7 @@
 {% load rating_extras %}
 {% block content %}
 <main class="container">
+    <h1>Home</h1>
     {% for post in posts %}
         {% if post.content_type == 'REVIEW' %}
         <div class="container__post">
@@ -31,7 +32,11 @@
             </div>
             <div class="container__post__ticket">
                 <h2>
-                    <span>Ticket créé par {{post.user}}</span> 
+                    {% if post.user == user %}
+                        <span>Votre ticket</span>
+                    {% else %}
+                        <span>Ticket créé par {{post.user}}</span> 
+                    {% endif %}
                     <span>le {{post.time_created}}</span>
                 </h2>
                 {% if post.ticket.user == user%}
@@ -57,7 +62,11 @@
         <div class="container__post">
             <div class="container__post__ticket">
                 <h2>
-                    <span>Ticket créé par {{post.user}}</span> 
+                    {% if post.user == user %}
+                        <span>Votre ticket</span>
+                    {% else %}
+                        <span>Ticket créé par {{post.user}}</span> 
+                    {% endif %}
                     <span>le {{post.time_created}}</span>
                 </h2>
                 {% if post.user == user%}

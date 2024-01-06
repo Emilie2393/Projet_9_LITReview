@@ -53,7 +53,7 @@
                     <p>{{ follow.username }}</p>
                     <form method="post">
                         {% csrf_token %}
-                        <button type="submit" name="data" value="{{follow.id}}">Se désabonner</button>
+                        <button type="submit" name="unsubscribe" value="{{follow.id}}">Se désabonner</button>
                     </form>
                 </div>
             {% endfor %}

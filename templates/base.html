@@ -22,9 +22,11 @@
         </nav>
         {% endif %}
         {% block content %}{% endblock content %}
+        {% if user.is_authenticated %}
         <footer>
             <h2>LitReview</h2>
             <span>Echanger vos meilleurs avis de littéraires aguéris</span>
         </footer>
+        {% endif %}
     </body>
 </html>

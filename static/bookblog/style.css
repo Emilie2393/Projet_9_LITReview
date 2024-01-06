@@ -124,6 +124,9 @@ footer {
   font-size: 15px;
   margin-right: 30%;
 }
+.container__post__view div {
+  font-size: 15px;
+}
 
 .display {
   text-decoration: none;

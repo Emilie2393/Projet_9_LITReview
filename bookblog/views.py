@@ -14,7 +14,7 @@ def home(request):
     """ Welcome page view to see user and followed_user posts"""
     tickets = models.Ticket.objects.filter(Q(user__in=request.user.follows.all()) | Q(user=request.user))
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
-    reviews = models.Review.objects.all()
+    reviews = models.Review.objects.filter(Q(user__in=request.user.follows.all()) | Q(user=request.user))
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
     user = request.user
     not_reviewed_by_user = []

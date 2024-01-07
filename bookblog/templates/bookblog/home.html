@@ -3,6 +3,9 @@
 {% block content %}
 <main class="container">
     <h1>Home</h1>
+    {% if not posts %}
+        <p>Vous ne suivez aucun utilisateur : cliquez sur suivre des utilisateurs pour créer votre communauté</p>
+    {% endif %}
     {% for post in posts %}
         {% if post.content_type == 'REVIEW' %}
         <div class="container__post">

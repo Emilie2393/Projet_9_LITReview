@@ -16,13 +16,14 @@
         </div>
         <div class="display">
             <div>
-            <p>{{blog.title}} : {{ blog.description }}</p>
+            <p>{{blog.title}}</p>
+            <p>{{ blog.description }}</p>
             {% if blog.image%}
             
                 <img src="{{ blog.image.url }}">
                 <p>{{ blog.photo.caption }}</p>
             {% endif %}
-            
+            <p>Ticket créé par {{blog.user}}</p>
             </div>
             <div class="display__review">
             {% if reviews %}
